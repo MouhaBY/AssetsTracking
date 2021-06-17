@@ -9,7 +9,7 @@ import RNBeep from 'react-native-a-beep'
 const db = new Database()
 
 
-class InventorierForm extends React.Component
+class InventoryForm extends React.Component
 {
     constructor(props){
         super(props)
@@ -142,7 +142,6 @@ class InventorierForm extends React.Component
                         autoFocus={true}
                         onFocus={() => this.setState({location: ''})}
                         placeholder= "Emplacement"
-                        //blurOnSubmit={false}
                         onSubmitEditing={() => { this.secondTextInput.focus() }}/>
                         <Text style={styles.error_message}>{this.state.message_location}</Text>
                         <Text style={styles.text_container}>Code article</Text>
@@ -248,4 +247,4 @@ const mapStateToProps = (state) => {
     }
   }
 
-export default connect(mapStateToProps)(InventorierForm)
+export default connect(mapStateToProps)(InventoryForm)

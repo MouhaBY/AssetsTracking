@@ -9,7 +9,7 @@ import LoginForm from '../Components/LoginForm'
 import ConfigurationForm from '../Components/ConfigurationForm'
 import Home from '../Components/Home'
 import InventoriesMenu from '../Components/InventoriesMenu'
-import InventorierForm from '../Components/InventorierForm'
+import InventoryForm from '../Components/InventoryForm'
 import InventoryDetails from '../Components/InventoryDetails'
 import store from '../Redux/configureStore'
 import SyncButton from '../Components/SyncButton'
@@ -27,7 +27,7 @@ const AppNavigation = () => {
                 <Stack.Navigator>
                     <Stack.Screen name="Home" component={Home} options={{headerRight:()=>(<SyncButton/>)}}/>
                     <Stack.Screen name="Inventaires" component={InventoriesMenu}/>
-                    <Stack.Screen name="Inventorier" component={InventorierForm}/>
+                    <Stack.Screen name="Inventorier" component={InventoryForm}/>
                     <Stack.Screen name="Détails" component={InventoryDetails}/>
                 </Stack.Navigator>
             </NavigationContainer>
