@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:'center', 
         marginHorizontal:20,
-        width: "80%",
+        width: "70%",
         height: 50,
         borderRadius: 50,
     },

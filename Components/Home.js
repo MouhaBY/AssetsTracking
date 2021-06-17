@@ -23,23 +23,28 @@ class Home extends React.Component
     render(){
         return(
             <View style={{flex:1}}>
-                <ScrollView>
-                    <TouchableOpacity 
-                    style={[styles.buttonContainer, {backgroundColor:'#2196F3'}]}
-                    onPress={() => {this.accessMenu("Inventaires")}}>
-                        <Text style={styles.textButtonContainer}>Inventaire</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                    style={[styles.buttonContainer, {backgroundColor:'#757575'}]}
-                    onPress={() => {this.accessMenu("Détails")}}>
-                        <Text style={styles.textButtonContainer}>Détails</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                    style={[styles.buttonContainer, {backgroundColor:'#D0312D'}]}
-                    onPress={() => {this.logout()}}>
-                        <Text style={styles.textButtonContainer}>Se déconnecter</Text>
-                    </TouchableOpacity>
-                </ScrollView>
+                    <View style={{flex:1, justifyContent:'center'}}>
+                        <TouchableOpacity 
+                        style={[styles.buttonContainer, {backgroundColor:'#2196F3'}]}
+                        onPress={() => {this.accessMenu("Inventaires")}}>
+                            <Text style={styles.textButtonContainer}>Inventaire</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        style={[styles.buttonContainer, {backgroundColor:'#757575'}]}
+                        onPress={() => {this.accessMenu("Détails")}}>
+                            <Text style={styles.textButtonContainer}>Détails</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        style={[styles.buttonContainer, {backgroundColor:'#757575'}]}
+                        onPress={() => {this.accessMenu("Détails")}}>
+                            <Text style={styles.textButtonContainer}>Consultation</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        style={[styles.buttonContainer, {backgroundColor:'#D0312D'}]}
+                        onPress={() => {this.logout()}}>
+                            <Text style={styles.textButtonContainer}>Se déconnecter</Text>
+                        </TouchableOpacity>
+                    </View>
                 <BottomBar style={{bottom: 0}}/>
             </View>
         )

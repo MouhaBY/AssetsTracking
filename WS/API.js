@@ -3,7 +3,7 @@ const API_TOKEN = "f78171b682bc4c08986c8067a8113ce6"
 
 export async function getWhatToSync(){
     return new Promise((resolve, reject) => { 
-        resolve( { results: ['Products', 'Areas', 'Configuration', 'Users'] } )
+        resolve( { results: ['Products', 'Areas', 'Users'] } )
     })
 }
 
@@ -24,13 +24,6 @@ export function getUsers() {
         resolve( { results: [ {id:4, username:"123", password:"123", contact:'Admin 123', isAdmin:1}, 
         {id:5, username:"1", password:"1", contact:'user 1', isAdmin:0}, 
         {id:7, username:"Test", password:"test", contact:'test user 1', isAdmin:0} ] } ) 
-    })
-}
-
-export function getConfiguration() {
-    return new Promise((resolve, reject) => { 
-        resolve( { results: [ { key:"serverAddress", state:'localhost:1234' }, 
-    ] } ) 
     })
 }
 

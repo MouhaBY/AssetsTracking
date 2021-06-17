@@ -27,6 +27,7 @@ export default class Database {
                 console.log('Creating Database')
                 await this.createTableUsers()
                 await this.createTableConfiguration()
+                await this.insertIntoConfigurations([{key:"serverAddress", state:"127.0.0.1:9898"}])
                 await this.createTableInventaires()
                 await this.createTableDetails()
                 await this.createTableProducts()
@@ -318,7 +319,7 @@ export default class Database {
                     var len = results.rows.length
                     if (len > 0) { 
                         resolve(results.rows.item(0).state)
-                        console.log('get configuration ' + configuration_key)
+                        console.log('get configuration ' + configuration_key + " - " +results.rows.item(0).state)
                     }
                     else{ reject('configuration introuvable') } 
                 })
