@@ -68,7 +68,7 @@ class LoginForm extends React.Component
         return(
             <View style={{flex:1}}>
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss} >
-                    <View 
+                    <View
                     style={styles.container}>
                         <Image source={require('../Images/logo.png')} style={styles.image}/>
                         <Text style={styles.titleContainer}>Assets Tracking</Text>
@@ -116,10 +116,11 @@ const styles = StyleSheet.create({
         color:"black",
     },
     buttonContainer:{
-        justifyContent:'center', 
-        marginHorizontal:20,
-        width: "70%",
-        height: 50,
+        justifyContent:'center',
+        marginHorizontal: 20,
+        marginTop: 5,
+        width: "40%",
+        height: "9%",
         borderRadius: 50,
     },
     textButtonContainer:{
@@ -136,13 +137,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         padding: 8,
         marginBottom: 15,
-        width: "80%",
-        height: 50,
+        width: "75%",
+        height: "13%",
     },
     image:{
         width: 70,
         height: 80,
-        margin: 10,
+        margin: 5,
         resizeMode: 'stretch',
     }
   })

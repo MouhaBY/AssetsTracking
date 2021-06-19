@@ -3,7 +3,7 @@ import { StyleSheet, Image } from 'react-native'
 import { createStackNavigator } from "@react-navigation/stack"
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { NavigationContainer } from "@react-navigation/native"
-import { connect } from 'react-redux'
+import { connect} from 'react-redux'
 
 import LoginForm from '../Components/LoginForm'
 import ConfigurationForm from '../Components/ConfigurationForm'
@@ -52,12 +52,12 @@ export const AppTabs = () => {
             <Tabs.Screen 
                 name='Connexion' 
                 component={LoginForm}
-                options={{ tabBarIcon: ()=> {return <Image style={styles.icon} source={require('../Images/connexion.png')}/> } }}
+                options={{ tabBarIcon: ()=> {return <Image style={styles.icon} source={require('../Images/login.png')}/> } }}
             />
             <Tabs.Screen 
                 name='Configuration' 
                 component={ConfigurationForm}
-                options={{ tabBarIcon: ()=> {return <Image style={styles.icon} source={require('../Images/configuration.png')}/> } }}
+                options={{ tabBarIcon: ()=> {return <Image style={styles.icon} source={require('../Images/settings.png')}/> } }}
             />
         </Tabs.Navigator>
     )
@@ -65,8 +65,9 @@ export const AppTabs = () => {
 
 const styles = StyleSheet.create({
     icon: {
-        width:40,
-        height:40
+        width:30,
+        height:30,
+        resizeMode: 'stretch',
     }
 })
 

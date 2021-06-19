@@ -1,7 +1,7 @@
 import React from 'react'
-import {View, TouchableOpacity, Text, StyleSheet, Button, Alert, ScrollView} from 'react-native'
+import {View, TouchableOpacity, Text, StyleSheet, Image, Button, Alert, ScrollView} from 'react-native'
 import { connect } from 'react-redux'
-import BottomBar from './BottomBar'
+import UserBar from './UserBar'
 import {LOGIN, LOGOUT} from '../Redux/Reducers/authenticationReducer'
 
 
@@ -23,29 +23,39 @@ class Home extends React.Component
     render(){
         return(
             <View style={{flex:1}}>
-                    <View style={{flex:1, justifyContent:'center'}}>
+                <View style={{justifyContent:'center', height:'40%'}}>
+                    <UserBar/>
+                </View>
+                <View>
+                    <View style={{flexDirection:'row', justifyContent:'center'}}>
                         <TouchableOpacity 
-                        style={[styles.buttonContainer, {backgroundColor:'#2196F3'}]}
-                        onPress={() => {this.accessMenu("Inventaires")}}>
-                            <Text style={styles.textButtonContainer}>Inventaire</Text>
+                            style={styles.buttonContainer}
+                            onPress={() => {this.accessMenu("Inventaires")}}>
+                                <Image source={require('../Images/inventory.png')} style={styles.image}/>
+                                <Text style={styles.textButtonContainer}>Inventaire</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        style={[styles.buttonContainer, {backgroundColor:'#757575'}]}
-                        onPress={() => {this.accessMenu("Détails")}}>
-                            <Text style={styles.textButtonContainer}>Détails</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                        style={[styles.buttonContainer, {backgroundColor:'#757575'}]}
-                        onPress={() => {this.accessMenu("Détails")}}>
-                            <Text style={styles.textButtonContainer}>Consultation</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                        style={[styles.buttonContainer, {backgroundColor:'#D0312D'}]}
-                        onPress={() => {this.logout()}}>
-                            <Text style={styles.textButtonContainer}>Se déconnecter</Text>
+                            style={styles.buttonContainer}
+                            onPress={() => {this.accessMenu("Détails")}}>
+                                <Image source={require('../Images/stock.png')} style={styles.image}/>
+                                <Text style={styles.textButtonContainer}>Détails</Text>
                         </TouchableOpacity>
                     </View>
-                <BottomBar style={{bottom: 0}}/>
+                    <View style={{flexDirection:'row', justifyContent:'center'}}>
+                        <TouchableOpacity 
+                            style={styles.buttonContainer}
+                            onPress={() => {this.accessMenu("Détails")}}>
+                                <Image source={require('../Images/stockscreen.png')} style={styles.image}/>
+                                <Text style={styles.textButtonContainer}>Consultation</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={styles.logoutButtonContainer}
+                            onPress={() => {this.logout()}}>
+                                <Image source={require('../Images/logout.png')} style={styles.image}/>
+                                <Text style={styles.textButtonContainer}>Déconnexion</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             </View>
         )
     }
@@ -54,27 +64,30 @@ class Home extends React.Component
 const styles = StyleSheet.create({
     buttonContainer:{
         justifyContent:'center', 
-        marginHorizontal:20, 
-        height: 50,
-        marginTop: 20,
+        alignItems:'center',
+        margin:10, 
+        height: 100,
+        width: 120,
         borderRadius: 5,
+        backgroundColor:'white'
     },
-    viewMiniButtonContainer:{
-        flexDirection:'row', 
-        marginTop: 20, 
-        marginHorizontal:20, 
-    },
-    miniButtonContainer:{
+    logoutButtonContainer:{
         justifyContent:'center', 
-        width:"49%", 
-        height: 50, 
+        alignItems:'center',
+        margin:10, 
+        height: 100,
+        width: 120,
         borderRadius: 5,
-        backgroundColor:'#004578',
     },
     textButtonContainer:{
         textAlign: 'center',
-        color:'white', 
-        fontSize: 20,
+        color:'black', 
+        fontSize: 16,
+    },
+    image:{
+        resizeMode: 'stretch',
+        height:50,
+        width:50,
     }
 })
 
