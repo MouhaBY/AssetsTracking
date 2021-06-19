@@ -2,10 +2,14 @@ import React from 'react'
 import { TouchableOpacity, Text, Alert, StyleSheet, Image } from 'react-native'
 import RNBeep from 'react-native-a-beep'
 import { getWhatToSync, getProducts, getLocations, getConfiguration, getUsers } from '../WS/API'
-import Database from '../Storage/Database'
+import Users from '../Storage/UsersModels'
+import Areas from '../Storage/AreasModels'
+import Assets from '../Storage/AssetsModels'
 
 
-const db = new Database()
+const User = new Users()
+const Area = new Areas()
+const Asset = new Assets()
 
 
 export default class SyncButton extends React.Component {
@@ -48,9 +52,8 @@ export default class SyncButton extends React.Component {
         console.log("table a synchroniser " + table_to_sync);
         return new Promise((resolve, reject) => {
             switch (table_to_sync){
-                case 'Products': getProducts().then(data =>{ resolve(data.results) }); break;
+                case 'Assets': getProducts().then(data =>{ resolve(data.results) }); break;
                 case 'Areas': getLocations().then(data =>{ resolve(data.results) }); break;
-                case 'Configuration': getConfiguration().then(data =>{ resolve(data.results) }); break;
                 case 'Users': getUsers().then(data =>{ resolve(data.results) }); break;
                 default: resolve([]); break;
             }
@@ -59,28 +62,22 @@ export default class SyncButton extends React.Component {
 
     synchroniser = async (table_to_sync, data_to_sync) => {
         switch (table_to_sync){
-            case 'Products':
+            case 'Assets':
                 try{
-                    await db.DeleteTableProducts()
-                    await db.insertIntoProducts(data_to_sync)
+                    await Asset.DeleteTableAssets()
+                    await Asset.insertIntoAssets(data_to_sync)
                     return(true)
                 } catch(err) { return (false) }                    
             case 'Areas': 
                 try{
-                    await db.DeleteTableAreas()
-                    await db.insertIntoAreas(data_to_sync) 
-                    return(true)
-                } catch(err) { return (false) }
-            case 'Configuration': 
-                try{
-                    await db.DeleteTableConfigurations()
-                    await db.insertIntoConfigurations(data_to_sync)
+                    await Area.DeleteTableAreas()
+                    await Area.insertIntoAreas(data_to_sync)
                     return(true)
                 } catch(err) { return (false) }
             case 'Users': 
                 try{
-                    await db.DeleteTableUsers()
-                    await db.insertIntoUsers(data_to_sync)
+                    await User.DeleteTableUsers()
+                    await User.insertIntoUsers(data_to_sync)
                     return(true)
                 } catch(err) { return (false) }
             default: return(false);

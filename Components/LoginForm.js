@@ -3,11 +3,11 @@ import { View, Text, StyleSheet, Image, Alert, TextInput, Keyboard, TouchableWit
 import { connect } from 'react-redux'
 import RNBeep from 'react-native-a-beep'
 
-import Database from '../Storage/Database'
 import { LOGIN, LOGOUT } from '../Redux/Reducers/authenticationReducer'
+import Users from '../Storage/UsersModels'
 
 
-const db = new Database()
+const User = new Users()
 
 
 class LoginForm extends React.Component 
@@ -38,7 +38,7 @@ class LoginForm extends React.Component
     login = async () => {
         if (this.state.username !== "" && this.state.password !== "") {
             try{
-                let user_found = await db.searchUser(this.state.username)
+                let user_found = await User.searchUser(this.state.username)
                 if (this.state.password === user_found.password) {
                     RNBeep.beep()
                     const action = { type: LOGIN, value: user_found }

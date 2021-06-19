@@ -1,10 +1,10 @@
 import React from 'react'
 import { View, Text, StyleSheet, Button, TextInput, Alert, TouchableOpacity, ScrollView } from 'react-native'
-import Database from '../Storage/Database'
 import RNBeep from 'react-native-a-beep'
+import Configurations from '../Storage/ConfigurationsModels'
 
 
-const db = new Database()
+const Configuration = new Configurations()
 
 
 export default class ConfigurationForm extends React.Component 
@@ -18,7 +18,7 @@ export default class ConfigurationForm extends React.Component
     }
 
     readConfiguration = async () => {
-        const serverAddress = await db.getConfiguration("serverAddress")
+        const serverAddress = await Configuration.getConfiguration("serverAddress")
         this.setState({serverAddress})
     }
 
@@ -33,7 +33,7 @@ export default class ConfigurationForm extends React.Component
 
     submitConfig = async () => {
         if (this.state.administrator == '12345'){
-            await db.updateConfiguration([this.state.serverAddress, "serverAddress"])
+            await Configuration.updateConfiguration([this.state.serverAddress, "serverAddress"])
             this.setState({administrator:''})
             RNBeep.beep()
             this.props.navigation.goBack()
