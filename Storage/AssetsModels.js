@@ -79,7 +79,7 @@ export default class Assets{
         const  db = await this.initDB()
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                tx.executeSql( 'SELECT * FROM Assets WHERE code = ?', [barcode],
+                tx.executeSql( 'SELECT id, code, name FROM Assets WHERE code = ?', [barcode],
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) { resolve(results.rows.item(0)) }

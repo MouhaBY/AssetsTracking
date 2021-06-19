@@ -13,9 +13,20 @@ export function getProducts() {
     })
 }
 
-export function getLocations() {
+export function getAreas() {
     return new Promise((resolve, reject) => { 
-        resolve( { results: [ {id:"11", code: "10", name: "Emplacement 10"}, {id:"12", code: "20", name: "Emplacement 20"},  ] } ) 
+        resolve( { results: [ 
+            {id:"1", code: "B01", name: "Bureau de direction"}, 
+            {id:"2", code: "B02", name: "Bureau Comptabilité"},
+            {id:"3", code: "B03", name: "Salle de réunion"}, 
+            {id:"4", code: "B04", name: "Bureau commercial"},
+            {id:"5", code: "B05", name: "Salle d'attente"}, 
+            {id:"6", code: "B06", name: "Acceuil"},
+            {id:"7", code: "B07", name: "Salle serveur informatique"}, 
+            {id:"8", code: "B08", name: "Bureau de finance"},
+            {id:"9", code: "B09", name: "Bureau Assistante"}, 
+            {id:"10", code: "B010", name: "Bureau DSI"},   
+        ] } ) 
     })
 }
 

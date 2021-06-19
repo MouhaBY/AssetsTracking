@@ -44,7 +44,7 @@ class Home extends React.Component
                     <View style={{flexDirection:'row', justifyContent:'center'}}>
                         <TouchableOpacity 
                             style={styles.buttonContainer}
-                            onPress={() => {this.accessMenu("Détails")}}>
+                            onPress={() => {this.accessMenu("Locaux")}}>
                                 <Image source={require('../Images/stockscreen.png')} style={styles.image}/>
                                 <Text style={styles.textButtonContainer}>Consultation</Text>
                         </TouchableOpacity>
