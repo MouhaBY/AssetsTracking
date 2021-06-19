@@ -13,7 +13,7 @@ export default class Assets{
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS Assets (id INTEGER UNIQUE PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL)', [], 
+                'CREATE TABLE IF NOT EXISTS Assets (id INTEGER UNIQUE PRIMARY KEY, code TEXT NOT NULL UNIQUE, name TEXT NOT NULL, area_id TEXT)', [], 
                 (tx, results) => {
                     resolve(results)
                     console.log('Table Assets created')
@@ -43,8 +43,8 @@ export default class Assets{
             var len = data_to_insert.length;
             for (let i = 0; i < len; i++) {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Assets (id, code, name) VALUES (?, ?, ?)', 
-                    [data_to_insert[i].id, data_to_insert[i].code, data_to_insert[i].name],)
+                    tx.executeSql('INSERT INTO Assets (id, code, name, area_id) VALUES (?, ?, ?, ?)', 
+                    [data_to_insert[i].id, data_to_insert[i].code, data_to_insert[i].name, data_to_insert[i].area_id],)
                 })
             }
             resolve(console.log('Assets inserted'))
@@ -57,7 +57,7 @@ export default class Assets{
             const products = []
             db.transaction((tx) => {
                 tx.executeSql(
-                'SELECT id, code, name FROM Assets', [],
+                'SELECT id, code, name, area_id FROM Assets', [],
                 (tx, results) => {
                     var len = results.rows.length
                     for (let i = 0; i < len; i++) {
@@ -74,12 +74,37 @@ export default class Assets{
             })
         })
     }
+
+    async searchAssets(area) {
+        const  db = await this.initDB()
+        return new Promise((resolve) => {
+            const assets = []
+            db.transaction((tx) => {
+                tx.executeSql(
+                'SELECT id, code, name, area_id FROM Assets WHERE area_id = ?', [area],
+                (tx, results) => {
+                    var len = results.rows.length
+                    for (let i = 0; i < len; i++) {
+                        let row = results.rows.item(i)
+                        const { id, code, name, area_id } = row
+                        assets.push({
+                            id,
+                            code,
+                            name,
+                            area_id,
+                          })
+                    }
+                    resolve(assets)              
+                })
+            })
+        })
+    }
     
-    async searchAssets(barcode) {
+    async searchAsset(barcode) {
         const  db = await this.initDB()
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                tx.executeSql( 'SELECT id, code, name FROM Assets WHERE code = ?', [barcode],
+                tx.executeSql( 'SELECT id, code, name, area_id FROM Assets WHERE code = ?', [barcode],
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) { resolve(results.rows.item(0)) }

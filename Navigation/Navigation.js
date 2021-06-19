@@ -8,12 +8,10 @@ import { connect} from 'react-redux'
 import LoginForm from '../Components/LoginForm'
 import ConfigurationForm from '../Components/ConfigurationForm'
 import Home from '../Components/Home'
-import InventoriesMenu from '../Components/InventoriesMenu'
-import InventoryForm from '../Components/InventoryForm'
-import InventoryDetails from '../Components/InventoryDetails'
 import store from '../Redux/configureStore'
 import SyncButton from '../Components/SyncButton'
 import SearchArea from '../Components/SearchArea'
+import AreaDetails from '../Components/AreaDetails'
 
 
 const Stack = createStackNavigator()
@@ -28,8 +26,9 @@ const AppNavigation = () => {
                 <Stack.Navigator>
                     <Stack.Screen name="Home" component={Home} options={{headerRight:()=>(<SyncButton/>)}}/>
                     <Stack.Screen name="Locaux" component={SearchArea}/>
-                    <Stack.Screen name="Inventorier" component={InventoryForm}/>
-                    <Stack.Screen name="Détails" component={InventoryDetails}/>
+                    <Stack.Screen name="Inventorier" component={SearchArea}/>
+                    <Stack.Screen name="Détails" component={SearchArea}/>
+                    <Stack.Screen name="Etat" component={AreaDetails}/>
                 </Stack.Navigator>
             </NavigationContainer>
         )

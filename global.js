@@ -1,0 +1,1 @@
+global.adminAccess = '12345'

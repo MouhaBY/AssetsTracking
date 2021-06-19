@@ -2,6 +2,7 @@ import React from 'react'
 import { View, Text, StyleSheet, Button, TextInput, Alert, TouchableOpacity, ScrollView } from 'react-native'
 import RNBeep from 'react-native-a-beep'
 import Configurations from '../Storage/ConfigurationsModels'
+import '../global'
 
 
 const Configuration = new Configurations()
@@ -13,13 +14,28 @@ export default class ConfigurationForm extends React.Component
         super(props)
         this.state = {
             serverAddress: '',
-            administrator:'',
+            adminAccess:'',
+            isFormValid: false,
         }
     }
 
     readConfiguration = async () => {
         const serverAddress = await Configuration.getConfiguration("serverAddress")
         this.setState({serverAddress})
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.adminAccess !== prevState.adminAccess) {
+          this.validateForm()
+      }
+    }
+
+    validateForm = () => {
+        if (this.state.adminAccess !== "") {
+            this.setState({isFormValid: true})
+        }
+        else
+            this.setState({isFormValid: false})
     }
 
     componentDidMount(){
@@ -32,9 +48,9 @@ export default class ConfigurationForm extends React.Component
     }
 
     submitConfig = async () => {
-        if (this.state.administrator == '12345'){
+        if (this.state.adminAccess == global.adminAccess){
             await Configuration.updateConfiguration([this.state.serverAddress, "serverAddress"])
-            this.setState({administrator:''})
+            this.setState({adminAccess:''})
             RNBeep.beep()
             this.props.navigation.goBack()
         }
@@ -45,7 +61,7 @@ export default class ConfigurationForm extends React.Component
     }
     
     handleserverAddressUpdate = serverAddress => { this.setState({serverAddress}) }
-    handleAdministratorUpdate = administrator => { this.setState({administrator}) }
+    handleadminAccessUpdate = adminAccess => { this.setState({adminAccess}) }
 
     render(){
         return(
@@ -54,8 +70,8 @@ export default class ConfigurationForm extends React.Component
                     <Text style={styles.titleContainer}>Configuration de base</Text>
                     <Text style={styles.textContainer}>Accès de configuration</Text>
                     <TextInput
-                    value={this.state.administrator} 
-                    onChangeText={this.handleAdministratorUpdate} 
+                    value={this.state.adminAccess} 
+                    onChangeText={this.handleadminAccessUpdate} 
                     style={styles.inputContainer} 
                     placeholder='Accès administrateur' 
                     autoCapitalize='none'
@@ -75,7 +91,10 @@ export default class ConfigurationForm extends React.Component
                     </TouchableOpacity>
                 </View>
                 <View style = {styles.buttonContainer}>
-                    <Button title='   Submit   ' onPress={()=>{ this.submitConfig() }}/>
+                    <Button 
+                    title='   Submit   '
+                    disabled={!this.state.isFormValid}
+                    onPress={()=>{ this.submitConfig() }}/>
                 </View>
             </View>
         )

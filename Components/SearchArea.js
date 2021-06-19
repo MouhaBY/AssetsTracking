@@ -7,7 +7,7 @@ import Areas from '../Storage/AreasModels'
 const Area = new Areas()
 
 
-export default class SearchArea extends React.Component 
+class SearchArea extends React.Component 
 {
     constructor(props){
         super(props)
@@ -46,12 +46,23 @@ export default class SearchArea extends React.Component
             this.setState({isFormValid: false})
     }
 
+    accessArea = async () => {
+        try{
+        const area_token_obj = await Area.searchArea(this.state.searchedArea)
+        this.props.navigation.navigate("Etat", {area_token:area_token_obj})
+        }
+        catch(err){
+            Alert.alert('Erreur', 'Emplacement introuvable')
+        }
+    }
+
     handleSearchedAreaUpdate = searchedArea => { this.setState({searchedArea}) }
 
     _renderItem = ({item}) => (
         <TouchableOpacity 
         style={styles.table_row}
-        onPress={() => { this.setState({searchedArea:item.code}) }}>
+        onPress={() => { this.setState({searchedArea:item.code}) }}
+        onLongPress={()=>{this.setState({searchedArea:item.code}), this.accessArea()}}>
             <Text style={[styles.table_row_txt, {width: "30%"}]}>{item.code}</Text>
             <Text style={[styles.table_row_txt, {width: "70%"}]}>{item.name}</Text>
         </TouchableOpacity>
@@ -67,13 +78,13 @@ export default class SearchArea extends React.Component
                         onChangeText={this.handleSearchedAreaUpdate} 
                         placeholder="Local"
                         autoFocus={true}
-                        style={{flex:1}}
-                        onSubmitEditing={() => {}}
+                        style={{flex:1, height:40}}
+                        onSubmitEditing={() => {this.accessArea()}}
                     />
                     <Button 
                         title='Détails'
                         disabled={!this.state.isFormValid}
-                        onPress={() => {}}
+                        onPress={() => {this.accessArea()}}
                     />
                 </View>
                 <View style={styles.page_Content}>
@@ -138,3 +149,11 @@ const styles = StyleSheet.create({
         backgroundColor:'#eff6fc',
     },   
 })
+
+const mapStateToProps = state => {
+    return {
+        authenticated: state.authReducer.authenticated
+    }
+}
+  
+export default connect(mapStateToProps)(SearchArea)

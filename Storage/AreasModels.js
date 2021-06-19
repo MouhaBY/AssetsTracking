@@ -80,11 +80,11 @@ export default class Areas{
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                'SELECT * FROM Areas WHERE code = ?', [location],
+                'SELECT id, code, name FROM Areas WHERE code = ?', [location],
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) { resolve(results.rows.item(0)) }
-                    else{ reject('Location unknown') }
+                    else{ reject('Area unknown') }
                 })
             })
         })

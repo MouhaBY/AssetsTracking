@@ -16,7 +16,7 @@ class Home extends React.Component
         this.props.dispatch(action)
     }
 
-    accessMenu(key){
+    accessMenu = (key) => {
         this.props.navigation.navigate(key)
     }
 
@@ -30,13 +30,13 @@ class Home extends React.Component
                     <View style={{flexDirection:'row', justifyContent:'center'}}>
                         <TouchableOpacity 
                             style={styles.buttonContainer}
-                            onPress={() => {this.accessMenu("Inventaires")}}>
+                            onPress={() => {this.accessMenu("Locaux")}}>
                                 <Image source={require('../Images/inventory.png')} style={styles.image}/>
                                 <Text style={styles.textButtonContainer}>Inventaire</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={styles.buttonContainer}
-                            onPress={() => {this.accessMenu("Détails")}}>
+                            onPress={() => {this.accessMenu("Locaux")}}>
                                 <Image source={require('../Images/stock.png')} style={styles.image}/>
                                 <Text style={styles.textButtonContainer}>Détails</Text>
                         </TouchableOpacity>

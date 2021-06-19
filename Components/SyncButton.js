@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, Text, Alert, StyleSheet, Image } from 'react-native'
 import RNBeep from 'react-native-a-beep'
-import { getWhatToSync, getProducts, getAreas, getUsers } from '../WS/API'
+import { getWhatToSync, getAssets, getAreas, getUsers } from '../WS/API'
 import Users from '../Storage/UsersModels'
 import Areas from '../Storage/AreasModels'
 import Assets from '../Storage/AssetsModels'
@@ -52,7 +52,7 @@ export default class SyncButton extends React.Component {
         console.log("table a synchroniser " + table_to_sync);
         return new Promise((resolve, reject) => {
             switch (table_to_sync){
-                case 'Assets': getProducts().then(data =>{ resolve(data.results) }); break;
+                case 'Assets': getAssets().then(data =>{ resolve(data.results) }); break;
                 case 'Areas': getAreas().then(data =>{ resolve(data.results) }); break;
                 case 'Users': getUsers().then(data =>{ resolve(data.results) }); break;
                 default: resolve([]); break;

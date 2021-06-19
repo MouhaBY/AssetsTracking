@@ -7,9 +7,20 @@ export async function getWhatToSync(){
     })
 }
 
-export function getProducts() {
+export function getAssets() {
     return new Promise((resolve, reject) => { 
-        resolve( { results: [ {id:"1", code: "1", name: "Article 1"}, {id:"2", code: "2", name: "Article 2"},  ] } ) 
+        resolve( { results: [ 
+            {id:"1", code: "IMMO001", name: "ECRAN PC", area_id:"1"}, 
+            {id:"2", code: "IMMO002", name: "ORDINATEUR",area_id:"2"},
+            {id:"3", code: "IMMO003", name: "BUREAU EN BOIS", area_id:"1"}, 
+            {id:"4", code: "IMMO004", name: "ECRAN PC",area_id:"2"},
+            {id:"5", code: "IMMO005", name: "ORDINATEUR", area_id:"1"}, 
+            {id:"6", code: "IMMO006", name: "TABLE RONDE",area_id:"1"},
+            {id:"7", code: "IMMO007", name: "SERVEUR INFORMATIQUE", area_id:"7"}, 
+            {id:"8", code: "IMMO008", name: "ECRAN PC",area_id:"7"},
+            {id:"9", code: "IMMO009", name: "SWITCHER DELL", area_id:"7"}, 
+            {id:"10", code: "IMMO010TANKMED180600014", name: "IMPRIMANTE",area_id:"3"},
+        ] } ) 
     })
 }
 
