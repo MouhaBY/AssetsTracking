@@ -9,7 +9,7 @@ const Asset = new Assets()
 const User = new Users()
 
 const inventoryDetailsList = [ 
-    {id: 1, inventory_id:"1", area_id:"1", asset_id:"99", user_id:"99", date:"20/06/2021 10:10:10"},
+    {id: 1, inventory_id:"1", area_id:"1", asset_id:"99", user_id:"98", date:"20/06/2021 10:10:10"},
     {id: 2, inventory_id:"1", area_id:"1", asset_id:"2", user_id:"4", date:"20/06/2021 10:10:10"},
     {id: 3, inventory_id:"1", area_id:"1", asset_id:"3", user_id:"5", date:"20/06/2021 10:10:10"},
     {id: 4, inventory_id:"2", area_id:"2", asset_id:"4", user_id:"7", date:"20/06/2021 10:10:10"}, 
@@ -33,11 +33,13 @@ export default class InventoryDetails extends React.Component
         assetsList.forEach(async (e) => {
             try{
                 let element_asset = await Asset.searchAsset(e.asset_id)
+                e.code =  element_asset.code
                 if (element_asset.area_id == area_id) {e.state = '#3cb043'}
                 else {e.state = 'orange'}
                 e.name =  element_asset.name
             }
             catch(err){
+                e.code = e.asset_id
                 e.name = e.asset_id
                 e.state = '#b0bec5'
             }
@@ -62,9 +64,10 @@ export default class InventoryDetails extends React.Component
     
     _renderItem = ({item}) => (
         <TouchableOpacity style={[styles.table_row, {backgroundColor: item.state}]}>
-            <Text style={[styles.table_row_txt, {width: "40%"}]}>{item.name}</Text>
-            <Text style={[styles.table_row_txt, {width: "30%"}]}>{item.username}</Text>
-            <Text style={[styles.table_row_txt, {width: "30%"}]}>{item.date}</Text>
+            <Text style={[styles.table_row_txt, {width: "25%"}]}>{item.code}</Text>
+            <Text style={[styles.table_row_txt, {width: "35%"}]}>{item.name}</Text>
+            <Text style={[styles.table_row_txt, {width: "15%"}]}>{item.username}</Text>
+            <Text style={[styles.table_row_txt, {width: "25%"}]}>{item.date}</Text>
         </TouchableOpacity>
     )
 
@@ -72,15 +75,15 @@ export default class InventoryDetails extends React.Component
         return(
             <View style={{flex:1}}>
                 <TouchableOpacity style={styles.page_Header} onPress={() => this.props.navigation.goBack()}>
-                    <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>{this.state.inventory_token.name}</Text>
-                    <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>Local : {this.state.area_token.code}</Text>
+                    <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>{this.state.inventory_token.name + " / Local :" +this.state.area_token.code}</Text>
                     <Text style={{color:'white', fontSize:16}}>{this.state.area_token.name}</Text>
                 </TouchableOpacity>
                 <View style={styles.page_Content}>
                     <View style={styles.table_header}>
-                        <Text style={[styles.table_header_txt, {width: "40%"}]}>Assets</Text>
-                        <Text style={[styles.table_header_txt, {width: "30%"}]}>Users</Text>
-                        <Text style={[styles.table_header_txt, {width: "30%"}]}>Date</Text>
+                        <Text style={[styles.table_header_txt, {width: "25%"}]}>Code</Text>
+                        <Text style={[styles.table_header_txt, {width: "35%"}]}>Asset</Text>
+                        <Text style={[styles.table_header_txt, {width: "15%"}]}>User</Text>
+                        <Text style={[styles.table_header_txt, {width: "25%"}]}>Date</Text>
                     </View>
                     <FlatList
                         data={this.state.assetsList}
@@ -99,7 +102,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#607d8b',
         alignItems:'center', 
         padding:1, 
-        height:70
+        height:50
     },
     page_Content:{
         backgroundColor:'white',
