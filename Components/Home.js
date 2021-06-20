@@ -36,7 +36,7 @@ class Home extends React.Component
                         </TouchableOpacity>
                         <TouchableOpacity 
                             style={styles.buttonContainer}
-                            onPress={() => {this.accessMenu("Locaux")}}>
+                            onPress={() => {this.accessMenu("Choix d'inventaire")}}>
                                 <Image source={require('../Images/stock.png')} style={styles.image}/>
                                 <Text style={styles.textButtonContainer}>Détails</Text>
                         </TouchableOpacity>
@@ -44,7 +44,7 @@ class Home extends React.Component
                     <View style={{flexDirection:'row', justifyContent:'center'}}>
                         <TouchableOpacity 
                             style={styles.buttonContainer}
-                            onPress={() => {this.accessMenu("Locaux")}}>
+                            onPress={() => {this.props.navigation.navigate("Locaux", {destination:"Etat de stock", inventory_token:{} })}}>
                                 <Image source={require('../Images/stockscreen.png')} style={styles.image}/>
                                 <Text style={styles.textButtonContainer}>Consultation</Text>
                         </TouchableOpacity>

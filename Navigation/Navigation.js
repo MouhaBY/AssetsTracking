@@ -12,6 +12,8 @@ import store from '../Redux/configureStore'
 import SyncButton from '../Components/SyncButton'
 import SearchArea from '../Components/SearchArea'
 import AreaDetails from '../Components/AreaDetails'
+import InventoriesMenu from '../Components/InventoriesMenu'
+import InventoryDetails from '../Components/InventoryDetailsForm'
 
 
 const Stack = createStackNavigator()
@@ -24,11 +26,12 @@ const AppNavigation = () => {
         return(
             <NavigationContainer>             
                 <Stack.Navigator>
-                    <Stack.Screen name="Home" component={Home} options={{headerRight:()=>(<SyncButton/>)}}/>
+                    <Stack.Screen name="Menu" component={Home} options={{headerRight:()=>(<SyncButton/>)}}/>
                     <Stack.Screen name="Locaux" component={SearchArea}/>
                     <Stack.Screen name="Inventorier" component={SearchArea}/>
-                    <Stack.Screen name="Détails" component={SearchArea}/>
-                    <Stack.Screen name="Etat" component={AreaDetails}/>
+                    <Stack.Screen name="Choix d'inventaire" component={InventoriesMenu} options={{headerStyle: { backgroundColor: '#005a9e'}, headerTintColor:'white'}}/>
+                    <Stack.Screen name="Etat de stock" component={AreaDetails}/>
+                    <Stack.Screen name="Détails" component={InventoryDetails}/>
                 </Stack.Navigator>
             </NavigationContainer>
         )

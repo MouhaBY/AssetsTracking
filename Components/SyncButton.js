@@ -1,15 +1,19 @@
 import React from 'react'
 import { TouchableOpacity, Text, Alert, StyleSheet, Image } from 'react-native'
 import RNBeep from 'react-native-a-beep'
-import { getWhatToSync, getAssets, getAreas, getUsers } from '../WS/API'
+import { getWhatToSync, getAssets, getAreas, getUsers, getInventories, getInventoriesDetails } from '../WS/API'
 import Users from '../Storage/UsersModels'
 import Areas from '../Storage/AreasModels'
 import Assets from '../Storage/AssetsModels'
+import Inventories from '../Storage/InventoriesModels'
+import Details from '../Storage/InventoriesDetailsModels'
 
 
 const User = new Users()
 const Area = new Areas()
 const Asset = new Assets()
+const Inventory = new Inventories()
+const Detail = new Details()
 
 
 export default class SyncButton extends React.Component {
@@ -55,6 +59,8 @@ export default class SyncButton extends React.Component {
                 case 'Assets': getAssets().then(data =>{ resolve(data.results) }); break;
                 case 'Areas': getAreas().then(data =>{ resolve(data.results) }); break;
                 case 'Users': getUsers().then(data =>{ resolve(data.results) }); break;
+                case 'Inventories': getInventories().then(data =>{ resolve(data.results) }); break;
+                case 'Details': getInventoriesDetails().then(data =>{ resolve(data.results) }); break;
                 default: resolve([]); break;
             }
         })
@@ -78,6 +84,16 @@ export default class SyncButton extends React.Component {
                 try{
                     await User.DeleteTableUsers()
                     await User.insertIntoUsers(data_to_sync)
+                    return(true)
+                } catch(err) { return (false) }
+            case 'Inventories': 
+                try{
+                    await Inventory.DeleteTableInventories()
+                    await Inventory.insertIntoInventories(data_to_sync)
+                    return(true)
+                } catch(err) { return (false) }
+            case 'Details': 
+                try{
                     return(true)
                 } catch(err) { return (false) }
             default: return(false);

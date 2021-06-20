@@ -7,7 +7,7 @@ import Assets from '../Storage/AssetsModels'
 const Asset = new Assets()
 
 
-class AreaDetails extends React.Component 
+export default class AreaDetails extends React.Component 
 {
     constructor(props){
         super(props)
@@ -20,7 +20,6 @@ class AreaDetails extends React.Component
     getAssets = async (area_id) => {
         try{
             let assetsList = await Asset.searchAssets(area_id)
-            console.log(assetsList)
             this.setState({assetsList})
         }
         catch(err){ 
@@ -73,7 +72,6 @@ const styles = StyleSheet.create({
         height:50
     },
     page_Content:{
-        //borderWidth:1, 
         backgroundColor:'white',
         margin:5, 
         flex:1, 
@@ -105,11 +103,3 @@ const styles = StyleSheet.create({
         backgroundColor:'#eff6fc',
     },   
 })
-
-const mapStateToProps = state => {
-    return {
-        authenticated: state.authReducer.authenticated
-    }
-}
-  
-export default connect(mapStateToProps)(AreaDetails)

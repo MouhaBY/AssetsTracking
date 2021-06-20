@@ -3,7 +3,31 @@ const API_TOKEN = "f78171b682bc4c08986c8067a8113ce6"
 
 export async function getWhatToSync(){
     return new Promise((resolve, reject) => { 
-        resolve( { results: ['Users', 'Areas', 'Assets'] } )
+        resolve( { results: ['Users', 'Areas', 'Assets', 'Inventories'] } )
+    })
+}
+
+export function getInventories() {
+    return new Promise((resolve, reject) => { 
+        resolve( { results: [ 
+            {id:"1", name: "Inventaire 2020", date: "31/12/2020"}, 
+            {id:"2", name: "Inventaire tournant", date: "01/05/2021"},
+            {id:"3333", name: "Inventaire de test", date: "20/06/2021"}, 
+            {id:"4", name: "Inventaire 2021", date: "31/12/2021"}, 
+            {id:"9", name: "Inventaire tournant 2", date: "01/02/2020"},
+            {id:"10", name: "Inventaire des biens informatiques", date: "06/06/2021"}, 
+        ] } ) 
+    })
+}
+
+export function getInventoriesDetails() {
+    return new Promise((resolve, reject) => { 
+        resolve( { results: [ 
+            {inventory_id:"1", area_id:"1", asset_id:"1", user_id:"4", date:"20/06/2021 10:10:10"},
+            {inventory_id:"1", area_id:"1", asset_id:"2", user_id:"4", date:"20/06/2021 10:10:10"},
+            {inventory_id:"1", area_id:"1", asset_id:"3", user_id:"5", date:"20/06/2021 10:10:10"},
+            {inventory_id:"1", area_id:"2", asset_id:"4", user_id:"7", date:"20/06/2021 10:10:10"}, 
+        ] } ) 
     })
 }
 

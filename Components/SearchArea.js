@@ -7,7 +7,7 @@ import Areas from '../Storage/AreasModels'
 const Area = new Areas()
 
 
-class SearchArea extends React.Component 
+export default class SearchArea extends React.Component 
 {
     constructor(props){
         super(props)
@@ -15,6 +15,7 @@ class SearchArea extends React.Component
             areasList : [],
             searchedArea : '',
             isFormValid:false,
+            destination:{},
         }
     }
 
@@ -48,8 +49,8 @@ class SearchArea extends React.Component
 
     accessArea = async () => {
         try{
-        const area_token_obj = await Area.searchArea(this.state.searchedArea)
-        this.props.navigation.navigate("Etat", {area_token:area_token_obj})
+            const area_token_obj = await Area.searchArea(this.state.searchedArea)
+            this.props.navigation.navigate(this.props.route.params.destination, {area_token:area_token_obj, inventory_token:this.props.route.params.inventory_token})
         }
         catch(err){
             Alert.alert('Erreur', 'Emplacement introuvable')
@@ -149,11 +150,3 @@ const styles = StyleSheet.create({
         backgroundColor:'#eff6fc',
     },   
 })
-
-const mapStateToProps = state => {
-    return {
-        authenticated: state.authReducer.authenticated
-    }
-}
-  
-export default connect(mapStateToProps)(SearchArea)

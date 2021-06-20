@@ -42,8 +42,6 @@ const styles = StyleSheet.create({
             borderRadius: 100 / 2,
             backgroundColor: "white",
             marginTop:'6%',
-            //position:'absolute',
-            //bottom:'32%',
             alignItems:'center',
             justifyContent:'center',
         },

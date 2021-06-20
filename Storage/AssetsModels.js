@@ -100,11 +100,11 @@ export default class Assets{
         })
     }
     
-    async searchAsset(barcode) {
+    async searchAsset(id) {
         const  db = await this.initDB()
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                tx.executeSql( 'SELECT id, code, name, area_id FROM Assets WHERE code = ?', [barcode],
+                tx.executeSql( 'SELECT id, code, name, area_id FROM Assets WHERE id = ?', [id],
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) { resolve(results.rows.item(0)) }
