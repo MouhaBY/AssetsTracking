@@ -26,7 +26,7 @@ class InventoriesMenu extends React.Component
     }
 
     accessInventory = (item) => {
-        this.props.navigation.navigate("Locaux", {destination:"Détails", inventory_token:item})
+        this.props.navigation.navigate("Locaux", {destination:this.props.route.params.destination, inventory_token:item})
     }
 
     _renderItem = ({item}) => (

@@ -1,21 +1,12 @@
 import React from 'react'
-import {View, Text, StyleSheet, Button, Image, Alert, TextInput, FlatList, TouchableOpacity} from 'react-native'
-import {connect} from 'react-redux'
+import { View, Text, StyleSheet, Button, Image, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native'
+import { connect } from 'react-redux'
 import Assets from '../Storage/AssetsModels'
 import Users from '../Storage/UsersModels'
+import Details from '../Storage/InventoriesDetailsModels'
 
 
-const Asset = new Assets()
-const User = new Users()
-
-const inventoryDetailsList = [ 
-    {id: 1, inventory_id:"1", area_id:"1", asset_id:"99", user_id:"98", date:"20/06/2021 10:10:10"},
-    {id: 2, inventory_id:"1", area_id:"1", asset_id:"2", user_id:"4", date:"20/06/2021 10:10:10"},
-    {id: 3, inventory_id:"1", area_id:"1", asset_id:"3", user_id:"5", date:"20/06/2021 10:10:10"},
-    {id: 4, inventory_id:"2", area_id:"2", asset_id:"4", user_id:"7", date:"20/06/2021 10:10:10"}, 
-    {id: 5, inventory_id:"1", area_id:"1", asset_id:"1", user_id:"7", date:"20/06/2021 10:10:10"},
-]
-
+const Detail = new Details()
 
 export default class InventoryDetails extends React.Component 
 {
@@ -29,26 +20,14 @@ export default class InventoryDetails extends React.Component
     }
 
     getAssets = async (area_id, inventory_token_id) => {
-        let assetsList = inventoryDetailsList.filter(item => (item.area_id == area_id && item.inventory_id == inventory_token_id))
+        const assetsList = await Detail.getDetailsInventaireArea(inventory_token_id, area_id)
         assetsList.forEach(async (e) => {
             try{
-                let element_asset = await Asset.searchAsset(e.asset_id)
-                e.code =  element_asset.code
-                if (element_asset.area_id == area_id) {e.state = '#3cb043'}
+                if (e.area_id == area_id) {e.state = '#3cb043'}
                 else {e.state = 'orange'}
-                e.name =  element_asset.name
             }
             catch(err){
-                e.code = e.asset_id
-                e.name = e.asset_id
                 e.state = '#b0bec5'
-            }
-            try{
-                let element_user = await User.searchUser_byId(e.user_id)
-                e.username = element_user.username
-            }
-            catch(err){
-                e.username = e.user_id
             }
         })
         this.setState({assetsList})

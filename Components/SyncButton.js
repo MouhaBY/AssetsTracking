@@ -94,6 +94,8 @@ export default class SyncButton extends React.Component {
                 } catch(err) { return (false) }
             case 'Details': 
                 try{
+                    await Detail.deleteTableDetails()
+                    await Detail.insertIntoDetails(data_to_sync)
                     return(true)
                 } catch(err) { return (false) }
             default: return(false);

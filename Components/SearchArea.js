@@ -83,7 +83,7 @@ export default class SearchArea extends React.Component
                         onSubmitEditing={() => {this.accessArea()}}
                     />
                     <Button 
-                        title='Détails'
+                        title= {this.props.route.params.destination}
                         disabled={!this.state.isFormValid}
                         onPress={() => {this.accessArea()}}
                     />
