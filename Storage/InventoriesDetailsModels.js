@@ -45,7 +45,7 @@ export default class Details{
                         } 
                         resolve(details)  
                     }
-                    else{ reject('inventaire introuvable') }
+                    else{ reject(' details inventaires introuvable') }
                 })
             })
         })

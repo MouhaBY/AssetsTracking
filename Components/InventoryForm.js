@@ -10,7 +10,7 @@ import RNBeep from 'react-native-a-beep'
 const Detail = new Details()
 const Asset = new Assets()
 
-export default class Inventory extends React.Component 
+class Inventory extends React.Component 
 {
     constructor(props){
         super(props)
@@ -27,30 +27,29 @@ export default class Inventory extends React.Component
 
     getAssets = async (area_id, inventory_token_id) => {
         const assetsList = await Asset.searchAssets(area_id)
-        const inventoryList = await Detail.getDetailsInventaires(inventory_token_id)
-        assetsList.forEach(async (e) => { 
-            const found = inventoryList.find(element => element.asset_id == e.id)
+        //const inventoryList = await Detail.getDetailsInventaires(inventory_token_id)
+        /*assetsList.forEach(async (e) => { 
+            let found = inventoryList.find(element => element.asset_id == e.id)
             if (found){
                 if (found.area_id == area_id){ e.state = '#3cb043' }
                 else{ e.state = 'orange' }
             }
-            else{ e.state = '#EA3C53' } 
+            //else{ e.state = '#EA3C53' }
         })
-        this.setState({inventoryList})
+        */
+        //this.setState({inventoryList})
         this.setState({assetsList})
     }
 
     verify_to_submit = async (asset_code) => {
         try{
-            
             const asset_found = await Asset.searchAsset(asset_code)
-            let now = new Date()
-            let dateNow = now.getDate()+"/"+parseInt(now.getMonth()+1)+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+":"+now.getUTCMilliseconds()
+            await this.submit(asset_found.id)
             /*
             let ifExists = await Detail.getDetailsInventaireAsset(this.state.inventory_token.id, asset_found.id)
             if (ifExists == 'exists'){throw("already exists")}
             else{
-                await Detail.addDetailInventaire({inventory_id:this.state.inventory_token.id, area_id:this.state.area_token.id, asset_id:asset_found.id, user_id:this.props.user_token.id, date:dateNow })
+                await this.submit(asset_found.id)
                 this.getAssets(this.state.area_token.id, this.state.inventory_token.id)
             }*/
         }
@@ -66,13 +65,23 @@ export default class Inventory extends React.Component
         }
     }
 
+    submit = async (assetId) => {
+        let now = new Date()
+        let dateNow = now.getDate()+"/"+parseInt(now.getMonth()+1)+"/"+now.getFullYear()+" "+now.getHours()+":"+now.getMinutes()+":"+now.getSeconds()+":"+now.getUTCMilliseconds()
+        let userId = this.props.user_token.id
+        let inventoryId = this.state.inventory_token.id
+        let areaId = this.state.area_token.id
+        let inventory_row = {inventory_id: inventoryId, area_id:areaId, asset_id:assetId, user_id:userId, date:dateNow }
+        //await Detail.addDetailInventaire(inventory_row)
+        console.log(inventory_row)
+    }
+
     componentDidMount(){
         const area_token = this.props.route.params.area_token
-        this.setState({area_token})
         const inventory_token = this.props.route.params.inventory_token
-        this.setState({inventory_token})
-        this.setState({assetsList:{}})
         this.getAssets(area_token.id, inventory_token.id)
+        this.setState({area_token})
+        this.setState({inventory_token})
     }
     
     _renderItem = ({item}) => (
@@ -102,13 +111,14 @@ export default class Inventory extends React.Component
     render(){
         return(
             <View style={{flex:1}}>
-                <TouchableOpacity style={styles.page_Header}>
+                <View style={styles.page_Header}>
                     <Text style={{color:'white', fontSize:16, fontWeight:'bold'}}>{this.state.inventory_token.name + " / Local :" +this.state.area_token.code}</Text>
                     <Text style={{color:'white', fontSize:16}}>{this.state.area_token.name}</Text>
-                </TouchableOpacity>
+                </View>
                 <View style={{alignItems:'center', flexDirection:'row'}}>
                 <TextInput 
                     value={this.state.assetToSubmit} 
+                    ref={(input) => { this.firstTextInput = input }}
                     onChangeText={this.handleAssetUpdate}
                     style={styles.inputContainer} 
                     placeholder="Code bien"
@@ -122,7 +132,6 @@ export default class Inventory extends React.Component
                 />
                 </View>
                 <Text style={{color:'red', marginLeft:10}}>{this.state.message}</Text>
-                <Button title= 'reset' onPress={() => {this.componentDidMount()}}/>
                 <View style={styles.page_Content}>
                     <View style={styles.table_header}>
                         <Text style={[styles.table_header_txt, {width: "50%"}]}>Code</Text>
@@ -192,10 +201,10 @@ const styles = StyleSheet.create({
     },   
 })
 
-/*const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        user_token: state.authReducer.user_token,
+      user_token: state.authReducer.user_token
     }
 }
 
-export default connect(mapStateToProps)(Inventory)*/
+export default connect(mapStateToProps)(Inventory)

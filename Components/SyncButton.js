@@ -20,18 +20,24 @@ export default class SyncButton extends React.Component {
 
     constructor(props){
         super(props)
+        this.state = {
+            isLoading:false
+        }
     }
 
     SyncingAlgorithm = async () => {
         try {
+            this.setState({isLoading:true})
             const data = await getWhatToSync()
             const isSynced = await this.SyncTables(data.results)
             if (isSynced) { Alert.alert('Synchronisation', 'Synchronisation terminée') }
             else { Alert.alert('Synchronisation', 'Terminal à jour') }
             RNBeep.beep()
+            this.setState({isLoading:false})
         }
         catch (err) { 
             RNBeep.beep(false)
+            this.setState({isLoading:false})
             Alert.alert('Erreur', 'Synchronisation échouée') 
         }
     }
@@ -105,7 +111,8 @@ export default class SyncButton extends React.Component {
     render(){
         return(
             <TouchableOpacity 
-            style={styles.touchableButton} 
+            style={styles.touchableButton}
+            disabled={this.state.isLoading}
             onPress={()=>{ this.SyncingAlgorithm() }}>
                 <Image style={styles.icon} source={require('../Images/index.png')}/>
             </TouchableOpacity>

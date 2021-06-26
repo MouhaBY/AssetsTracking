@@ -55,7 +55,7 @@ export default class Users{
         const  db = await this.initDB()
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                tx.executeSql( 'SELECT * FROM Users WHERE username = ?', [username],
+                tx.executeSql( 'SELECT id, username, password, contact, isAdmin FROM Users WHERE username = ?', [username],
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) { resolve(results.rows.item(0)) }

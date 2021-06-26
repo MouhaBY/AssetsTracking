@@ -30,7 +30,7 @@ const AppNavigation = () => {
                     <Stack.Screen name="Menu" component={Home} options={{headerRight:()=>(<SyncButton/>)}}/>
                     <Stack.Screen name="Locaux" component={SearchArea}/>
                     <Stack.Screen name="Inventorier" component={InventoriesMenu}/>
-                    <Stack.Screen name="Choix d'inventaire" component={InventoriesMenu} options={{headerStyle: { backgroundColor: '#005a9e'}, headerTintColor:'white'}}/>
+                    <Stack.Screen name="Choix d'inventaire" component={InventoriesMenu}/>
                     <Stack.Screen name="Consulter" component={AreaDetails}/>
                     <Stack.Screen name="Détails" component={InventoryDetails}/>
                     <Stack.Screen name="Inventaire" component={Inventory}/>
@@ -67,6 +67,8 @@ export const AppTabs = () => {
         </Tabs.Navigator>
     )
 }
+
+// Styling navigator header : options={{headerStyle: { backgroundColor: '#005a9e'}, headerTintColor:'white'}}
 
 const styles = StyleSheet.create({
     icon: {
