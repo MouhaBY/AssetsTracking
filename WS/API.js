@@ -34,7 +34,7 @@ export function getInventoriesDetails() {
 export function getAssets() {
     return new Promise((resolve, reject) => { 
         resolve( { results: [ 
-            {id:"1", code: "IMMO001", name: "ECRAN PC", area_id:"1"}, 
+            {id:"1", code: "1", name: "ECRAN PC", area_id:"1"}, 
             {id:"2", code: "IMMO002", name: "ORDINATEUR",area_id:"2"},
             {id:"3", code: "IMMO003", name: "BUREAU EN BOIS", area_id:"1"}, 
             {id:"4", code: "IMMO004", name: "ECRAN PC",area_id:"2"},

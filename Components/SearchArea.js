@@ -2,10 +2,11 @@ import React from 'react'
 import {View, Text, StyleSheet, Button, Image, Alert, TextInput, FlatList, TouchableOpacity} from 'react-native'
 import {connect} from 'react-redux'
 import Areas from '../Storage/AreasModels'
+import Assets from '../Storage/AssetsModels'
 
 
 const Area = new Areas()
-
+const Asset = new Assets()
 
 export default class SearchArea extends React.Component 
 {
@@ -14,7 +15,9 @@ export default class SearchArea extends React.Component
         this.state = {
             areasList : [],
             searchedArea : '',
+            searchedCode : '',
             isFormValid:false,
+            isForm2Valid:false,
             destination:{},
         }
     }
@@ -34,7 +37,7 @@ export default class SearchArea extends React.Component
     }
     
     componentDidUpdate(prevProps, prevState) {
-        if (this.state.searchedArea !== prevState.searchedArea) {
+        if (this.state.searchedArea !== prevState.searchedArea || this.state.searchedCode !== prevState.searchedCode) {
           this.validateForm()
       }
     }
@@ -45,19 +48,37 @@ export default class SearchArea extends React.Component
         }
         else
             this.setState({isFormValid: false})
+        if (this.state.searchedCode !== "") {
+            this.setState({isForm2Valid: true})
+        }
+        else
+            this.setState({isForm2Valid: false})
     }
 
     accessArea = async () => {
         try{
-            const area_token_obj = await Area.searchArea(this.state.searchedArea)
-            this.props.navigation.navigate(this.props.route.params.destination, {area_token:area_token_obj, inventory_token:this.props.route.params.inventory_token})
+            const area_token = await Area.searchArea(this.state.searchedArea)
+            this.props.navigation.navigate(this.props.route.params.destination, {area_token, inventory_token:this.props.route.params.inventory_token})
         }
         catch(err){
             Alert.alert('Erreur', 'Emplacement introuvable')
         }
     }
 
+    accessAsset = async () => {
+        try{
+            const asset_token_obj = await Asset.searchAsset(this.state.searchedCode)
+            const area_token = await Area.searchAreaById(asset_token_obj.area_id)
+            this.props.navigation.navigate("Consulter", {area_token, selected_asset:asset_token_obj.id})
+        }
+        catch(err){
+            Alert.alert('Erreur', 'Bien introuvable')
+        }
+    }
+
     handleSearchedAreaUpdate = searchedArea => { this.setState({searchedArea}) }
+    handleSearchedCodeUpdate = searchedCode => { this.setState({searchedCode}) }
+
 
     _renderItem = ({item}) => (
         <TouchableOpacity 
@@ -72,6 +93,23 @@ export default class SearchArea extends React.Component
     render(){
         return(
             <View style={{flex:1}}>
+                {this.props.route.params.destination == "Consulter" &&
+                <View style={[styles.page_Header, {borderColor:'#EA3C53'}]}>
+                    <Text style={{padding:5}}>Rechercher un bien : </Text>
+                    <TextInput 
+                        value={this.state.searchedCode} 
+                        onChangeText={this.handleSearchedCodeUpdate} 
+                        placeholder="Code Bien"
+                        autoFocus={true}
+                        style={{flex:1, height:40}}
+                        onSubmitEditing={() => {console.log(this.state.searchedCode)}}
+                    />
+                    <Button 
+                        title= "Trouver"
+                        disabled={!this.state.isForm2Valid}
+                        onPress={() => {this.accessAsset()}}
+                    />
+                </View>}
                 <View style={styles.page_Header}>
                     <Text style={{padding:5}}>Choix local : </Text>
                     <TextInput 
@@ -117,8 +155,6 @@ const styles = StyleSheet.create({
         height:40
     },
     page_Content:{
-        //borderColor:'black', 
-        //borderWidth:1, 
         backgroundColor:'white',
         margin:5, 
         flex:1, 

@@ -90,4 +90,19 @@ export default class Areas{
         })
     }    
 
+    async searchAreaById(area_id) {
+        const  db = await this.initDB()
+        return new Promise((resolve, reject) => {
+            db.transaction((tx) => {
+                tx.executeSql(
+                'SELECT id, code, name FROM Areas WHERE id = ?', [area_id],
+                (tx, results) => {
+                    var len = results.rows.length
+                    if (len > 0) { resolve(results.rows.item(0)) }
+                    else{ reject('Area unknown') }
+                })
+            })
+        })
+    }    
+
 }
