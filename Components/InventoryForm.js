@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Button, Image, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Button, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import Assets from '../Storage/AssetsModels'
 import Details from '../Storage/InventoriesDetailsModels'
@@ -8,6 +8,8 @@ import RNBeep from 'react-native-a-beep'
 
 const Detail = new Details()
 const Asset = new Assets()
+
+const ColorStates = {CORRECT_POSITION : '#3cb043', CHANGED_POSITION : 'orange', NOT_SCANNED:'#EA3C53', OUTER_POSITION: 'yellow'}
 
 class Inventory extends React.Component 
 {
@@ -23,21 +25,34 @@ class Inventory extends React.Component
         }
     }
 
+    delete_Row = (item_to_delete) => {
+        Alert.alert('Supprimer', 'Êtes vous sur de supprimer cette ligne ?', 
+        [   { text: 'Annuler' },
+            { text: 'Confirmer', 
+            onPress: () => {
+                Detail.deleteDetailInventaire(item_to_delete)
+                this.componentDidMount()
+            }
+            },
+        ])
+    }
+
     getAssets = async (area_id, inventory_token_id) => {
-        const assetsList = await Asset.searchAssets(area_id)
+        const assetsList = await Asset.searchAssets(area_id)        
         const inventoryList = await Detail.getDetailsInventaires(inventory_token_id)
         const restList = []
         assetsList.forEach((e) => { 
             let found = inventoryList.find(element => element.asset_id == e.id)
             if (found){
-                if (found.inv_area_id == area_id){ e.state = '#3cb043' }
-                else{ e.state = 'orange' }
+                e.inv_id = found.id
+                if (found.inv_area_id == area_id){ e.state = ColorStates.CORRECT_POSITION  }
+                else{ e.state = ColorStates.CHANGED_POSITION }
             }
-            else{ e.state = '#EA3C53' }
+            else{ e.state = ColorStates.NOT_SCANNED }
         })
         inventoryList.forEach((e) => {
             if (e.inv_area_id == area_id && e.area_id != area_id) {
-                restList.push({id:e.asset_id, code:e.code, name:e.name, state:'yellow'})
+                restList.push({inv_id:e.id, id:e.asset_id, code:e.code, name:e.name, state:ColorStates.OUTER_POSITION})
             }
         })
         this.setState({finalList : [...assetsList, ...restList]})
@@ -46,14 +61,12 @@ class Inventory extends React.Component
     verify_to_submit = async (asset_code) => {
         try{
             const asset_found = await Asset.searchAsset(asset_code)
-            await this.submit(asset_found.id)
-            /*
             let ifExists = await Detail.getDetailsInventaireAsset(this.state.inventory_token.id, asset_found.id)
-            if (ifExists == 'exists'){throw("already exists")}
+            if (ifExists == "code exists"){ throw("code exists") }
             else{
                 await this.submit(asset_found.id)
-                this.getAssets(this.state.area_token.id, this.state.inventory_token.id)
-            }*/
+                this.componentDidMount()
+            }
         }
         catch(err){
             RNBeep.beep(false)
@@ -74,11 +87,11 @@ class Inventory extends React.Component
         let inventoryId = this.state.inventory_token.id
         let areaId = this.state.area_token.id
         let inventory_row = {inventory_id: inventoryId, area_id:areaId, asset_id:assetId, user_id:userId, date:dateNow }
-        //await Detail.addDetailInventaire(inventory_row)
-        console.log(inventory_row)
+        await Detail.addDetailInventaire(inventory_row)
     }
 
     componentDidMount(){
+        this.setState({finalList : []})
         const area_token = this.props.route.params.area_token
         const inventory_token = this.props.route.params.inventory_token
         this.getAssets(area_token.id, inventory_token.id)
@@ -87,7 +100,10 @@ class Inventory extends React.Component
     }
     
     _renderItem = ({item}) => (
-        <TouchableOpacity style={[styles.table_row, {backgroundColor: item.state}]} onPress={()=>{ this.handleAssetUpdate(item.code) }}>
+        <TouchableOpacity 
+        style={[styles.table_row, {backgroundColor: item.state}]} 
+        onPress={()=>{ this.handleAssetUpdate(item.code) }}
+        onLongPress={() => { if (item.state != ColorStates.NOT_SCANNED) {this.delete_Row(item.inv_id)} }}>
             <Text style={[styles.table_row_txt, {width: "50%"}]}>{item.code}</Text>
             <Text style={[styles.table_row_txt, {width: "50%"}]}>{item.name}</Text>
         </TouchableOpacity>

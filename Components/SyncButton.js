@@ -48,10 +48,10 @@ export default class SyncButton extends React.Component {
             for (let i = 0; i < len; i++) {
                 let table_to_sync = results[i]
                 let data_to_sync = await this.getDataToSync(table_to_sync)
-                if (data_to_sync.length > 0){ 
+                //if (data_to_sync.length > 0){ 
                     await this.synchroniser(table_to_sync, data_to_sync)
-                }
-                else { console.log(" data vierge ") }
+                //}
+                //else { console.log(" data vierge ") }
             }
             return(true)
         }

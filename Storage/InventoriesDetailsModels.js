@@ -45,7 +45,7 @@ export default class Details{
                         } 
                         resolve(details)  
                     }
-                    else{ reject(' details inventaires introuvable') }
+                    else{ resolve([]) }
                 })
             })
         })
@@ -74,7 +74,7 @@ export default class Details{
                         } 
                         resolve(details)  
                     }
-                    else{ reject('inventaire ou area introuvable') }
+                    else{ resolve([]) }
                 }, (err) => {console.log(err)}, )
             })
         })
@@ -88,7 +88,7 @@ export default class Details{
                 (tx, results) => {
                     var len = results.rows.length
                     if (len > 0) {
-                        reject("code exists")
+                        resolve("code exists")
                     }
                     else{ resolve("ok") }
                 })

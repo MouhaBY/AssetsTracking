@@ -3,7 +3,7 @@ const API_TOKEN = "f78171b682bc4c08986c8067a8113ce6"
 
 export async function getWhatToSync(){
     return new Promise((resolve, reject) => { 
-        resolve( { results: ['Users', 'Areas', 'Assets', 'Inventories', 'Details'] } )
+        resolve( { results: ['Users', 'Areas', 'Assets', 'Inventories'] } )
     })
 }
 
@@ -22,7 +22,7 @@ export function getInventories() {
 
 export function getInventoriesDetails() {
     return new Promise((resolve, reject) => { 
-        resolve( { results: [ 
+        resolve( { results: [
             {inventory_id:"1", area_id:"1", asset_id:"1", user_id:"4", date:"20/06/2021 10:10:10"},
             {inventory_id:"1", area_id:"1", asset_id:"2", user_id:"4", date:"20/06/2021 10:10:10"},
             {inventory_id:"1", area_id:"1", asset_id:"3", user_id:"5", date:"20/06/2021 10:10:10"},
