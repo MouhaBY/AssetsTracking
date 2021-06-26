@@ -10,12 +10,12 @@ export async function getWhatToSync(){
 export function getInventories() {
     return new Promise((resolve, reject) => { 
         resolve( { results: [ 
-            {id:"1", name: "Inventaire 2020", date: "31/12/2020"}, 
-            {id:"2", name: "Inventaire tournant", date: "01/05/2021"},
-            {id:"3333", name: "Inventaire de test", date: "20/06/2021"}, 
-            {id:"4", name: "Inventaire 2021", date: "31/12/2021"}, 
-            {id:"9", name: "Inventaire tournant 2", date: "01/02/2020"},
-            {id:"10", name: "Inventaire des biens informatiques", date: "06/06/2021"}, 
+            {id:"1", name: "Inventaire 2020", date: "31/12/2020", state:'1'}, 
+            {id:"2", name: "Inventaire tournant", date: "01/05/2021", state:'1'},
+            {id:"3333", name: "Inventaire de test", date: "20/06/2021", state:'1'}, 
+            {id:"4", name: "Inventaire 2021", date: "31/12/2021", state:'1'}, 
+            {id:"9", name: "Inventaire tournant 2", date: "01/02/2020", state:'0'},
+            {id:"10", name: "Inventaire des biens informatiques", date: "06/06/2021", state:'1'}, 
         ] } ) 
     })
 }
@@ -37,7 +37,7 @@ export function getAssets() {
             {id:"1", code: "1", name: "ECRAN PC", area_id:"1"}, 
             {id:"2", code: "IMMO002", name: "ORDINATEUR",area_id:"2"},
             {id:"3", code: "IMMO003", name: "BUREAU EN BOIS", area_id:"1"}, 
-            {id:"4", code: "IMMO004", name: "ECRAN PC",area_id:"2"},
+            {id:"4", code: "IMMO004", name: "ECRAN PC",area_id:"1"},
             {id:"5", code: "IMMO005", name: "ORDINATEUR", area_id:"1"}, 
             {id:"6", code: "IMMO006", name: "TABLE RONDE",area_id:"1"},
             {id:"7", code: "IMMO007", name: "SERVEUR INFORMATIQUE", area_id:"7"}, 

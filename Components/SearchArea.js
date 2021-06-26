@@ -102,7 +102,7 @@ export default class SearchArea extends React.Component
                         placeholder="Code Bien"
                         autoFocus={true}
                         style={{flex:1, height:40}}
-                        onSubmitEditing={() => {console.log(this.state.searchedCode)}}
+                        onSubmitEditing={() => {this.accessAsset()}}
                     />
                     <Button 
                         title= "Trouver"

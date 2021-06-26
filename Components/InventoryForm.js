@@ -2,7 +2,6 @@ import React from 'react'
 import { View, Text, StyleSheet, Button, Image, Alert, TextInput, FlatList, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 import Assets from '../Storage/AssetsModels'
-import Users from '../Storage/UsersModels'
 import Details from '../Storage/InventoriesDetailsModels'
 import RNBeep from 'react-native-a-beep'
 
@@ -15,10 +14,9 @@ class Inventory extends React.Component
     constructor(props){
         super(props)
         this.state = {
-            assetsList : [],
-            inventoryList : [],
+            finalList : [],
             area_token: {},
-            inventory_token:{},
+            inventory_token: {},
             assetToSubmit : '',
             message : '',
             isFormValid:false,
@@ -27,18 +25,22 @@ class Inventory extends React.Component
 
     getAssets = async (area_id, inventory_token_id) => {
         const assetsList = await Asset.searchAssets(area_id)
-        //const inventoryList = await Detail.getDetailsInventaires(inventory_token_id)
-        /*assetsList.forEach(async (e) => { 
+        const inventoryList = await Detail.getDetailsInventaires(inventory_token_id)
+        const restList = []
+        assetsList.forEach((e) => { 
             let found = inventoryList.find(element => element.asset_id == e.id)
             if (found){
-                if (found.area_id == area_id){ e.state = '#3cb043' }
+                if (found.inv_area_id == area_id){ e.state = '#3cb043' }
                 else{ e.state = 'orange' }
             }
-            //else{ e.state = '#EA3C53' }
+            else{ e.state = '#EA3C53' }
         })
-        */
-        //this.setState({inventoryList})
-        this.setState({assetsList})
+        inventoryList.forEach((e) => {
+            if (e.inv_area_id == area_id && e.area_id != area_id) {
+                restList.push({id:e.asset_id, code:e.code, name:e.name, state:'yellow'})
+            }
+        })
+        this.setState({finalList : [...assetsList, ...restList]})
     }
 
     verify_to_submit = async (asset_code) => {
@@ -85,7 +87,7 @@ class Inventory extends React.Component
     }
     
     _renderItem = ({item}) => (
-        <TouchableOpacity style={[styles.table_row, {backgroundColor: item.state}]} onPress={()=>{this.handleAssetUpdate(item.code)}}>
+        <TouchableOpacity style={[styles.table_row, {backgroundColor: item.state}]} onPress={()=>{ this.handleAssetUpdate(item.code) }}>
             <Text style={[styles.table_row_txt, {width: "50%"}]}>{item.code}</Text>
             <Text style={[styles.table_row_txt, {width: "50%"}]}>{item.name}</Text>
         </TouchableOpacity>
@@ -104,8 +106,9 @@ class Inventory extends React.Component
         if (this.state.assetToSubmit !== "") {
             this.setState({isFormValid: true})
         }
-        else
+        else{
             this.setState({isFormValid: false})
+        }
     }
 
     render(){
@@ -138,7 +141,7 @@ class Inventory extends React.Component
                         <Text style={[styles.table_header_txt, {width: "50%"}]}>Asset</Text>
                     </View>
                     <FlatList
-                        data={this.state.assetsList}
+                        data={this.state.finalList}
                         keyExtractor={(item) => item.id}
                         renderItem={this._renderItem}>
                     </FlatList>

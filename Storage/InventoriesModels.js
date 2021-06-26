@@ -13,7 +13,7 @@ export default class Inventories{
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                'CREATE TABLE IF NOT EXISTS Inventories (id INTEGER UNIQUE PRIMARY KEY, name TEXT NOT NULL, date TEXT NOT NULL)', [], 
+                'CREATE TABLE IF NOT EXISTS Inventories (id INTEGER UNIQUE PRIMARY KEY, name TEXT NOT NULL, date TEXT NOT NULL, state TEXT NOT NULL)', [], 
                 (tx, results) => {
                     resolve(results) 
                     console.log('table inventaires created')
@@ -40,7 +40,7 @@ export default class Inventories{
         const db = await this.initDB()
         return new Promise((resolve, reject) => {
             db.transaction((tx) => {
-                tx.executeSql( 'INSERT INTO Inventories (id, name, date) VALUES (?, ?, ?)', [inventaire.name, inventaire.date],
+                tx.executeSql( 'INSERT INTO Inventories (id, name, date, state) VALUES (?, ?, ?, ?)', [inventaire.id, inventaire.name, inventaire.date, inventaire.state],
                 (tx, results) => { resolve(results) })
             })
         })
@@ -53,8 +53,8 @@ export default class Inventories{
             var len = data_to_insert.length;
             for (let i = 0; i < len; i++) {
                 db.transaction((tx) => {
-                    tx.executeSql('INSERT INTO Inventories (id, name, date) VALUES (?, ?, ?)', 
-                    [data_to_insert[i].id, data_to_insert[i].name, data_to_insert[i].date],)
+                    tx.executeSql('INSERT INTO Inventories (id, name, date, state) VALUES (?, ?, ?, ?)', 
+                    [data_to_insert[i].id, data_to_insert[i].name, data_to_insert[i].date, data_to_insert[i].state])
                 })
             }
             resolve(console.log('inventaires inserted'))
@@ -66,16 +66,17 @@ export default class Inventories{
         return new Promise((resolve) => {
             const inventaires = []
             db.transaction((tx) => {
-                tx.executeSql('SELECT id, name, date FROM Inventories', [],
+                tx.executeSql('SELECT id, name, date, state FROM Inventories', [],
                 (tx, results) => {
                     var len = results.rows.length
                     for (let i = 0; i < len; i++) {
                         let row = results.rows.item(i)
-                        const { id, name, date } = row
+                        const { id, name, date, state } = row
                         inventaires.push({
                             id,
                             name,
-                            date
+                            date,
+                            state
                           })
                     }   
                     resolve(inventaires)              

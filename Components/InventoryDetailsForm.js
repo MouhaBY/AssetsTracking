@@ -23,6 +23,7 @@ export default class InventoryDetails extends React.Component
         const assetsList = await Detail.getDetailsInventaireArea(inventory_token_id, area_id)
         assetsList.forEach(async (e) => {
             try{
+                console.log(e)
                 if (e.area_id == area_id) {e.state = '#3cb043'}
                 else {e.state = 'orange'}
             }
