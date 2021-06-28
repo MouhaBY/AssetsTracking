@@ -35,10 +35,10 @@ export default class AreaDetails extends React.Component
     }
     
     _renderItem = ({item}) => (
-        <TouchableOpacity style={styles.table_row}>
-            <Text style={[styles.table_row_txt, {width: "30%"}, {backgroundColor: item.id == this.props.route.params.selected_asset ? '#3cb043': '#eff6fc'}]}>{item.code}</Text>
-            <Text style={[styles.table_row_txt, {width: "70%"}, {backgroundColor: item.id == this.props.route.params.selected_asset ? '#3cb043': '#eff6fc'}]}>{item.name}</Text>
-        </TouchableOpacity>
+                <TouchableOpacity style={styles.table_row}>
+                    <Text style={[styles.table_row_txt, {width: "30%"}, {backgroundColor: item.id == this.props.route.params.selected_asset ? '#3cb043': '#eff6fc'}]}>{item.code}</Text>
+                    <Text style={[styles.table_row_txt, {width: "70%"}, {backgroundColor: item.id == this.props.route.params.selected_asset ? '#3cb043': '#eff6fc'}]}>{item.name}</Text>
+                </TouchableOpacity>
     )
 
     render(){

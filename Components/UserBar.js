@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
             justifyContent:'center',
         },
         circle: {
-            width: 100,
-            height: 100,
+            width: 50,
+            height: 50,
             borderRadius: 100 / 2,
             backgroundColor: "white",
             marginTop:'6%',
